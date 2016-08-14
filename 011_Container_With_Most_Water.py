@@ -13,38 +13,18 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        size = len(height)
-        i, j = 0, size - 1
-        hi, hj = height[i], height[j]
-        max_area = min(hi, hj) * (j - i)
+        max_area = 0
+        i, j = 0, len(height) - 1
 
-        direction = 1 if hi <= hj else -1
-        t = i + 1 if direction > 0 else j - 1
+        while i < j:
+            hi, hj = height[i], height[j]
+            area = min(hi, hj) * (j - i)
+            if area > max_area:
+                max_area = area
 
-        while i < t < j:
-            ht = height[t]
-            if direction > 0 and ht <= hi:
-                t += 1
-                continue
-            elif direction < 0 and ht <= hj:
-                t -= 1
-                continue
-
-            left_area = min(hi, ht) * (t - i)
-            right_area = min(hj, ht) * (j - t)
-            max_area = max(max_area, left_area, right_area)
-
-            if direction > 0 and ht > hj:
-                direction = -1
-                i = t
-                hi = height[i]
-                t = j - 1
-            elif direction < 0 and ht > hi:
-                direction = 1
-                j = t
-                hj = height[j]
-                t = i + 1
+            if hi < hj:
+                i += 1
             else:
-                t += direction
+                j -= 1
 
         return max_area
