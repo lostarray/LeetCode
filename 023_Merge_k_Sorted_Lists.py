@@ -1,7 +1,6 @@
-# Merge two sorted linked lists and return it as a new list.
-# The new list should be made by splicing together the nodes of the first two lists.
+# Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
 #
-# Tags: Linked List
+# Tags: Divide and Conquer, Linked List, Heap
 
 
 # Definition for singly-linked list.
@@ -12,6 +11,22 @@ class ListNode(object):
 
 
 class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        if not lists:
+            return None
+
+        while len(lists) > 1:
+            l1 = lists.pop(0)
+            l2 = lists.pop(0)
+            m = self.mergeTwoLists(l1, l2)
+            lists.append(m)
+
+        return lists[0]
+
     def mergeTwoLists(self, l1, l2):
         """
         :type l1: ListNode
@@ -36,4 +51,5 @@ class Solution(object):
                 l2 = l2.next
 
         tail.next = l1 or l2
+
         return head.next
